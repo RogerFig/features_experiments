@@ -1,8 +1,6 @@
 certifi
 click
 joblib
-mkl-random
-mkl-service
 nltk
 numpy
 pandas
