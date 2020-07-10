@@ -1,7 +1,6 @@
 certifi
 click
 joblib
-mkl-fft
 mkl-random
 mkl-service
 nltk
