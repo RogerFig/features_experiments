@@ -1,0 +1,21 @@
+certifi
+click
+joblib
+mkl-fft
+mkl-random
+mkl-service
+nltk
+numpy
+pandas
+pycodestyle
+Pyphen
+python-dateutil
+pytz
+scikit-learn
+scipy
+six
+sklearn
+textstat @ git+https://github.com/RogerFig/textstat.git@15a3441e75e89db425d2f800e02fb29ab3f21cda
+threadpoolctl
+toml
+tqdm

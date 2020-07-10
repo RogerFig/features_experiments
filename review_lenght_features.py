@@ -27,9 +27,10 @@ def get_num_words(text):
 
 
 if __name__ == "__main__":
-    p = 'corpus'
+    p = '/home/rogerio/workspace/Corpus Gigante/corpus_csvs_pickles/corpus_splited/dev_apps.pkl'
     df = load_corpus(p)
+    print(df.columns)
     for ind, row in df.iterrows():
-        print("%d, Total Sentenças: %d; Total Palavra: %d; Média: %d " % (ind, get_num_sents(row[1]['text']), get_num_words(row[1]['text']), get_avg_sent_len(row[1]['text'])))
+        print("%d, Total Sentenças: %d; Total Palavra: %d; Média: %d " % (ind, get_num_sents(row['text']), get_num_words(row['text']), get_avg_sent_len(row['text'])))
         # print("Total Palavra: %d" % get_num_words(row[1]['text']))
         # print("Média: %d" % get_avg_sent_len(row[1]['text']))
