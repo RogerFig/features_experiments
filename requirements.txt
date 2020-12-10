@@ -16,3 +16,7 @@ textstat @ git+https://github.com/RogerFig/textstat.git@15a3441e75e89db425d2f800
 threadpoolctl
 toml
 tqdm
+gensim
+nlpnet
+smart-open
+liwc
