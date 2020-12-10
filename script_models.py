@@ -15,15 +15,15 @@ from read_corpus import load_corpus
 import pandas as pd
 from utils import Preprocessing
 
-
+base = '/home/rogerio/workspace/Corpus Gigante/corpus_csvs_pickles/corpus_splited/'
 # Preprocessing
-file_path_apps_dev = '/home/rogerio/workspace/Corpus Gigante/corpus_csvs_pickles/corpus_splited/dev_apps.pkl'
-file_path_apps_train = '/home/rogerio/workspace/Corpus Gigante/corpus_csvs_pickles/corpus_splited/train_apps.pkl'
-file_path_apps_test = '/home/rogerio/workspace/Corpus Gigante/corpus_csvs_pickles/corpus_splited/test_apps.pkl'
+file_path_apps_dev = base+'dev_apps.pkl'
+file_path_apps_train = base+'train_apps.pkl'
+file_path_apps_test = base+'test_apps.pkl'
 
-file_path_movies_dev = '/home/rogerio/workspace/Corpus Gigante/corpus_csvs_pickles/corpus_splited/dev_filmes.pkl'
-file_path_movies_train = '/home/rogerio/workspace/Corpus Gigante/corpus_csvs_pickles/corpus_splited/train_filmes.pkl'
-file_path_movies_test = '/home/rogerio/workspace/Corpus Gigante/corpus_csvs_pickles/corpus_splited/test_filmes.pkl'
+file_path_movies_dev = base+'dev_filmes.pkl'
+file_path_movies_train = base+'train_filmes.pkl'
+file_path_movies_test = base+'test_filmes.pkl'
 
 dominios = {'apps_train': file_path_apps_train, 'apps_test': file_path_apps_test,
             'movies_train': file_path_movies_train, 'movies_test': file_path_movies_test}
