@@ -5,6 +5,9 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from utils import Preprocessing
 from gensim import corpora
 from gensim import models
+from collections import defaultdict
+import numpy as np
+import gzip
 
 
 def get_tfidf_old(documents):
@@ -18,38 +21,50 @@ def get_tfidf_old(documents):
 
 
 def get_tfidf(documents):
-    dictionary = corpora.Dictionary(documents)
-    bow_corpus = [dictionary.doc2bow(text)
-                  for _, text in documents.iteritems()]
-    tfidf = models.TfidfModel(bow_corpus)
+    words = documents['tokens'].apply(lambda x: [w for w, _, _ in x])
+    # remove words that appear only once
+    frequency = defaultdict(int)
+    for text in words:
+        for token in text:
+            frequency[token] += 1
 
-    return(tfidf[bow_corpus])
+    words = [
+        [token for token in text if frequency[token] > 1] for text in words
+    ]
+    dictionary = corpora.Dictionary(words)
+    bow_corpus = [dictionary.doc2bow(text)
+                  for text in words]
+    tfidf = models.TfidfModel(bow_corpus)
+    corpus_tfidf = tfidf[bow_corpus]
+
+    features = np.zeros([len(bow_corpus), len(dictionary)])
+
+    for i, doc in enumerate(corpus_tfidf):
+        for pos, value in doc:
+            features[i, pos] = value
+    return features
 # print(tst2)
 
 
 if __name__ == "__main__":
     p = '/home/rogerio/workspace/Corpus Gigante/corpus_csvs_pickles/corpus_splited/dev_apps.pkl'
     df = load_corpus(p)
-    # vocab = get_vocab()
-    # p1 = df[(df.object == 'com.google.android.apps.books')
-    # & (df.helpfulness == 1.0)]
+    df = df[df.helpfulness == 1.0]
     p = Preprocessing()
+    text_pre = df['text'].apply(p.preprocessing)
+    text_pre = text_pre.to_frame(name='tokens')
+    df_pre = pd.concat([df, text_pre], axis=1)
+    df_pre = df_pre[df_pre.tokens.str.len() > 0]
 
-    part1 = df[df.helpfulness == 0.0]
-    # part1 = part1.head()
-    preprocessed_p1 = part1['text'].apply(p.preprocessing)
+    # pu = preprocessed_p1.apply(lambda x: ' '.join([a for a in x]))
 
-    preprocessed_p1 = preprocessed_p1.apply(
-        lambda x: [a.lower() for a, _, _ in x])
+    features = get_tfidf(df_pre)
+    f = gzip.GzipFile('features/tfidf_%s.npy' % 'testando', "w")
+    np.save(f, features)
+    f.close()
 
-    # corpus_tfidf = get_tfidf(preprocessed_p1)
-    # tams = [len(rev) for rev in corpus_tfidf]
-    # tams.sort()
-    # print(tams)
-    pu = preprocessed_p1.apply(lambda x: ' '.join([a for a in x]))
-
-    tfidf_p1 = get_tfidf_old(pu)
-
-    ord = tfidf_p1.iloc[0].sort_values(ascending=False)
-    print(ord.iloc[:13])
-    # print(p1.iloc[0]['text'])
+    # To load
+    # f = gzip.GzipFile('file.npy.gz', "r")
+    # np.load(f)
+    # print(df_pre.shape)
+    # print(features.shape)

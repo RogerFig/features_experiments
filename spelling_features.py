@@ -29,9 +29,9 @@ def calc_features_spell(documents):
     vocab = get_vocab()
     print('vocab loaded')
     features_table = []
-    total = len(documents)
+    # total = len(documents)
     for ind, row in documents.iterrows():
-        print('%d/%d' % (ind, total), end='\r')
+        # print('%d/%d' % (ind, total), end='\r')
         spell_errors = get_spelling_errors(row['tokens'], vocab)
         features_table.append([ind, spell_errors])
     df = pd.DataFrame(features_table, columns=[
