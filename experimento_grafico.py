@@ -2,7 +2,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.feature_extraction.text import CountVectorizer
 from read_corpus import load_corpus
 import pandas as pd
-from utils import Preprocessing
+# from utils import Preprocessing
 import numpy as np
 
 # base = '/home/rogerio/workspace/corpus_splited/'
