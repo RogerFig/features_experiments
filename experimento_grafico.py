@@ -63,7 +63,7 @@ for dominio, files in dominios.items():
     df_pre = pd.concat([text_pre, df['helpfulness']], axis=1)
     df_pre = df_pre[df_pre.tokens.str.len() > 0]
 
-    # df_pre = pd.read_pickle('de_test.pkl')
+    df_pre = pd.read_pickle('de_test.pkl')
 
     # df_pre = df_pre.sample(frac=0.01)
     # print(df_pre.pivot_table(index=['helpfulness'], aggfunc='size'))
