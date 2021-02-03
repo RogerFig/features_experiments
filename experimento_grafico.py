@@ -11,7 +11,21 @@ from gensim.corpora import Dictionary
 from gensim import similarities
 from gensim.test.utils import datapath, get_tmpfile
 from gensim.similarities import Similarity
-import time
+import concurrent.futures
+
+
+def count_simi(parametros):
+    i, simi, T, utilidade = parametros
+    total_pares_simi = 0
+    cont_iguais = 0
+    candidates = np.where(simi >= T)[0]
+    maiores = np.where(candidates > i)[0]
+    if len(maiores) > 0:
+        slice_h = utilidade[maiores]
+        total_pares_simi = len(slice_h)
+        iguais = np.where(slice_h == utilidade[i])
+        cont_iguais = len(iguais[0])
+    return (total_pares_simi, cont_iguais)
 
 # 83 sec - 10k
 # Quantidade de pares em que houve similaridade acima de um threshold e tinham a mesma utilidade
@@ -19,9 +33,10 @@ import time
 # Cnp = n!\p!*(n-p)!
 # [2134238050, 454297095, 82375945, 15192815, 2522693, 619359, 370352, 185585, 142727]
 
+
 # base = '/home/rogerio/workspace/corpus_splited/'
-base = '/home/rfsousa/workspace/corpus_splited/'
-# base = '/home/rogerio/workspace/Corpus Gigante/corpus_csvs_pickles/corpus_splited/'
+# base = '/home/rfsousa/workspace/corpus_splited/'
+base = '/home/rogerio/workspace/Corpus Gigante/corpus_csvs_pickles/corpus_splited/'
 
 # Pickles
 file_path_apps_train = base+'train_apps.pkl'
@@ -64,16 +79,26 @@ for dominio, files in dominios.items():
     cont_iguais = [0 for i in range(0, 9)]
     total_pares_simi = [0 for i in range(0, 9)]
     T = [k/10 for k in range(1, 10)]
+    futures = []
     for i, simi in enumerate(index):
         print('%s/%s' % (i, len_docs), end='\r')
-        for k in range(9):
-            candidates = np.where(simi >= T[k])[0]
-            maiores = np.where(candidates > i)[0]
-            if len(maiores) > 0:
-                slice_h = utilidade[maiores]
-                total_pares_simi[k] += len(slice_h)
-                iguais = np.where(slice_h == utilidade[i])
-                cont_iguais[k] += len(iguais[0])
+        param_list = [(i, simi, T[l], utilidade) for l in range(9)]
+        with concurrent.futures.ThreadPoolExecutor() as executor:
+            futures = [executor.submit(count_simi, params)
+                       for params in param_list]
+        # for k in range(9):
+        #     candidates = np.where(simi >= T[k])[0]
+        #     maiores = np.where(candidates > i)[0]
+        #     if len(maiores) > 0:
+        #         slice_h = utilidade[maiores]
+        #         total_pares_simi[k] += len(slice_h)
+        #         iguais = np.where(slice_h == utilidade[i])
+        #         cont_iguais[k] += len(iguais[0])
+        for ind, f in enumerate(futures):
+            resultado = f.result()
+            total_pares_simi[ind] += resultado[0]
+            cont_iguais[ind] += resultado[1]
+
     for i in range(9):
         if total_pares_simi[i] != 0:
             percentual = cont_iguais[i]/total_pares_simi[i]
@@ -82,7 +107,7 @@ for dominio, files in dominios.items():
             totais.append(0)
     result = pd.DataFrame(
         [totais], columns=[10, 20, 30, 40, 50, 60, 70, 80, 90])
-    result.to_csv('exp_similaridades/%s_ngrafico.csv' % dominio)
+    result.to_csv('exp_similaridades/%s_ttgrafico.csv' % dominio)
 # fim = time.time()
 # print("Tempo: %s" % (fim-inicio))
 # 0,44771,8352,1916,546,127,62,45,11,10 -> 1000
