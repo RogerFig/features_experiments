@@ -8,6 +8,7 @@ from sklearn.neural_network import MLPClassifier
 from sklearn.tree import DecisionTreeClassifier
 from sklearn import preprocessing
 import pandas as pd
+import joblib
 
 
 class Classification:
@@ -57,10 +58,11 @@ class Classification:
 
     @staticmethod
     def normalize(X):
-        X_normalized = preprocessing.normalize(X, norm='l2')
+        X_normalized = preprocessing.normalize(X, norm='l2', axis=0)
         return X_normalized
+        # return X
 
-    def classifier(self):
+    def classifier(self, save_folder_model=''):
         """
         Runs several classifiers (svm, naive bayes, decision tree, and nn)
         :param test_percentage: percentage of the test set
@@ -73,22 +75,30 @@ class Classification:
         if self.algorithm == 'svm':
             clf = svm.SVC(kernel='linear', gamma='auto')
             clf.fit(self.x_train, self.y_train)
+            if save_folder_model != '':
+                joblib.dump(clf, save_folder_model+'.model')
             print('Training: ', clf.score(self.x_test, self.y_test))
             y_pred = clf.predict(self.x_test)
         elif self.algorithm == 'naive_bayes':
             clf = GaussianNB()
             clf.fit(self.x_train, self.y_train)
+            if save_folder_model != '':
+                joblib.dump(clf, save_folder_model+'.model')
             print('Training: ', clf.score(self.x_test, self.y_test))
             y_pred = clf.predict(self.x_test)
         elif self.algorithm == 'tree':
             clf = DecisionTreeClassifier()
             clf.fit(self.x_train, self.y_train)
+            if save_folder_model != '':
+                joblib.dump(clf, save_folder_model+'.model')
             print('Training: ', clf.score(self.x_test, self.y_test))
             y_pred = clf.predict(self.x_test)
         elif self.algorithm == 'nn':
             clf = MLPClassifier(solver='adam', hidden_layer_sizes=(
                 20, 20), random_state=42, max_iter=1000)
             clf.fit(self.x_train, self.y_train)
+            if save_folder_model != '':
+                joblib.dump(clf, save_folder_model+'.model')
             print('Training: ', clf.score(self.x_test, self.y_test))
             y_pred = clf.predict(self.x_test)
         # cross_score = self.eval_cross_validation(clf)
