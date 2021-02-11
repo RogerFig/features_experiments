@@ -10,7 +10,21 @@ domain = sys.argv[1]
 method = sys.argv[2]
 model_folder = sys.argv[3]
 result_folder = sys.argv[4]
+sel_features = sys.argv[5]
 
+features_ig_apps = ['stars_deviation', 'num_words',
+                    'GF', 'avg_sent_len', 'S', 'CI', 'FKI', 'nouns']
+features_corr_apps = ['num_words', 'avg_sent_len',
+                      'spell', 'swear', 'affect', 'aspects', 'negemo', 'ARI']
+features_rf_apps = ['stars_deviation', 'num_words',
+                    'CI', 'avg_sent_len', 'ARI', 'S', 'GF', 'FI']
+
+features_ig_movies = ['stars_deviation', 'num_words',
+                      'FI', 'GF', 'avg_sent_len', 'S', 'CI', 'nouns']
+features_corr_movies = ['num_words', 'swear', 'avg_sent_len',
+                        'spell', 'negemo', 'SMOG', 'affect', 'num_sents']
+features_rf_movies = ['stars_deviation', 'CI',
+                      'ARI', 'GF', 'FI', 'FKI', 'S', 'avg_sent_len']
 
 dominios = ['features/features_apps_dev.csv', 'features/features_movies_dev']
 train_apps = 'features/features_apps_train.csv'
@@ -25,21 +39,45 @@ features_df_test = None
 if domain == 'apps':
     features_df_train = pd.read_csv(train_apps, index_col=0)
     features_df_test = pd.read_csv(test_apps, index_col=0)
+    if sel_features == 'ig':
+        features_ig_apps.append('helpfulness')
+        features_df_train = features_df_train[features_ig_apps]
+        features_df_test = features_df_test[features_ig_apps]
+    elif sel_features == 'corr':
+        features_corr_apps.append('helpfulness')
+        features_df_train = features_df_train[features_corr_apps]
+        features_df_test = features_df_test[features_corr_apps]
+    elif sel_features == 'rf':
+        features_rf_apps.append('helpfulness')
+        features_df_train = features_df_train[features_rf_apps]
+        features_df_test = features_df_test[features_rf_apps]
 elif domain == 'movies':
     features_df_train = pd.read_csv(train_filmes, index_col=0)
     features_df_test = pd.read_csv(test_filmes, index_col=0)
+    if sel_features == 'ig':
+        features_ig_movies.append('helpfulness')
+        features_df_train = features_df_train[features_ig_movies]
+        features_df_test = features_df_test[features_ig_movies]
+    elif sel_features == 'corr':
+        features_corr_movies.append('helpfulness')
+        features_df_train = features_df_train[features_corr_movies]
+        features_df_test = features_df_test[features_corr_movies]
+    elif sel_features == 'rf':
+        features_rf_movies.append('helpfulness')
+        features_df_train = features_df_train[features_rf_movies]
+        features_df_test = features_df_test[features_rf_movies]
 else:
     print("Verifique domínio, saindo")
     exit()
 
-metodos = ['naive_bayes', 'svm', 'tree', 'nn']
+metodos = ['naive_bayes', 'svm', 'tree', 'nn', 'randfor']
 
 if method not in metodos:
     print("Método inválido... Saindo")
     exit()
 
-name_model = "%s_%s.model" % (domain, method)
-name_result = "%s_%s.json" % (domain, method)
+name_model = "%s_%s_%s.model" % (domain, method, sel_features)
+name_result = "%s_%s_%s.json" % (domain, method, sel_features)
 
 # exit()
 # python script_classification.py domain method model/method+domain result/method+domain

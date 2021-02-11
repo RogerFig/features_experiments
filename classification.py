@@ -6,6 +6,7 @@ from sklearn.model_selection import train_test_split, cross_val_score
 from sklearn.naive_bayes import GaussianNB
 from sklearn.neural_network import MLPClassifier
 from sklearn.tree import DecisionTreeClassifier
+from sklearn.ensemble import RandomForestClassifier
 from sklearn import preprocessing
 import pandas as pd
 import joblib
@@ -96,6 +97,17 @@ class Classification:
         elif self.algorithm == 'nn':
             clf = MLPClassifier(solver='adam', hidden_layer_sizes=(
                 20, 20), random_state=42, max_iter=1000)
+            clf.fit(self.x_train, self.y_train)
+            if save_folder_model != '':
+                joblib.dump(clf, save_folder_model+'.model')
+            print('Training: ', clf.score(self.x_test, self.y_test))
+            y_pred = clf.predict(self.x_test)
+        elif self.algorithm == 'randfor':
+            criterion = 'entropy'  # best fit
+            estimators = 200  # best fit
+            max_depth = None  # best fit
+            clf = RandomForestClassifier(
+                criterion=criterion, n_estimators=estimators, max_depth=max_depth)
             clf.fit(self.x_train, self.y_train)
             if save_folder_model != '':
                 joblib.dump(clf, save_folder_model+'.model')
