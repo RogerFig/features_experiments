@@ -70,7 +70,7 @@ else:
     print("Verifique domínio, saindo")
     exit()
 
-metodos = ['naive_bayes', 'svm', 'tree', 'nn', 'randfor']
+metodos = ['naive_bayes', 'svm', 'tree', 'nn', 'randfor', 'oner', 'dummy']
 
 if method not in metodos:
     print("Método inválido... Saindo")

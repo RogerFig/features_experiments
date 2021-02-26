@@ -8,6 +8,8 @@ from sklearn.neural_network import MLPClassifier
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn import preprocessing
+from mlxtend.classifier import OneRClassifier
+from sklearn.dummy import DummyClassifier
 import pandas as pd
 import joblib
 
@@ -108,6 +110,20 @@ class Classification:
             max_depth = None  # best fit
             clf = RandomForestClassifier(
                 criterion=criterion, n_estimators=estimators, max_depth=max_depth)
+            clf.fit(self.x_train, self.y_train)
+            if save_folder_model != '':
+                joblib.dump(clf, save_folder_model+'.model')
+            print('Training: ', clf.score(self.x_test, self.y_test))
+            y_pred = clf.predict(self.x_test)
+        elif self.algorithm == 'oner':
+            clf = OneRClassifier()
+            clf.fit(self.x_train, self.y_train)
+            if save_folder_model != '':
+                joblib.dump(clf, save_folder_model+'.model')
+            print('Training: ', clf.score(self.x_test, self.y_test))
+            y_pred = clf.predict(self.x_test)
+        elif self.algorithm == 'dummy':
+            clf = DummyClassifier(strategy="most_frequent")
             clf.fit(self.x_train, self.y_train)
             if save_folder_model != '':
                 joblib.dump(clf, save_folder_model+'.model')

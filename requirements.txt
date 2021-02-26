@@ -20,3 +20,4 @@ gensim
 nlpnet
 smart-open
 liwc
+mlxtend
