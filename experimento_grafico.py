@@ -34,7 +34,7 @@ def count_simi(parametros):
         total_pares_simi = len(slice_h)
         iguais = maiores[np.where(slice_h == utilidade[i])[0]]
         cont_iguais = len(iguais)
-        list_equals = iguais
+        list_equals = iguais.tolist()
         # print(cont_iguais)
     return (total_pares_simi, cont_iguais, list_equals, T)
 
