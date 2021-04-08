@@ -16,7 +16,7 @@ import joblib
 
 class Classification:
 
-    def __init__(self, algorithm, x, y, x_test, y_test):
+    def __init__(self, algorithm, x, y, x_test, y_test, columns):
         """
         Constructor
         :param algorithm:
@@ -27,6 +27,7 @@ class Classification:
         self.y_train = y
         self.x_test = x_test
         self.y_test = y_test
+        self.columns = columns
 
     # @staticmethod
     # def get_features(file):
@@ -121,6 +122,7 @@ class Classification:
             if save_folder_model != '':
                 joblib.dump(clf, save_folder_model+'.model')
             print('Training: ', clf.score(self.x_test, self.y_test))
+            print(self.columns[clf.feature_idx_])
             y_pred = clf.predict(self.x_test)
         elif self.algorithm == 'dummy':
             clf = DummyClassifier(strategy="most_frequent")

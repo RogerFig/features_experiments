@@ -10,7 +10,13 @@ domain = sys.argv[1]
 method = sys.argv[2]
 model_folder = sys.argv[3]
 result_folder = sys.argv[4]
-sel_features = sys.argv[5]
+
+sel_features = 'all'
+try:
+    sel_features = sys.argv[5]
+except IndexError:
+    sel_features = 'all'
+
 
 features_ig_apps = ['stars_deviation', 'num_words',
                     'GF', 'avg_sent_len', 'S', 'CI', 'FKI', 'nouns']
@@ -39,6 +45,7 @@ features_df_test = None
 if domain == 'apps':
     features_df_train = pd.read_csv(train_apps, index_col=0)
     features_df_test = pd.read_csv(test_apps, index_col=0)
+    columns = features_df_train.columns
     if sel_features == 'ig':
         features_ig_apps.append('helpfulness')
         features_df_train = features_df_train[features_ig_apps]
@@ -54,6 +61,7 @@ if domain == 'apps':
 elif domain == 'movies':
     features_df_train = pd.read_csv(train_filmes, index_col=0)
     features_df_test = pd.read_csv(test_filmes, index_col=0)
+    columns = features_df_train.columns
     if sel_features == 'ig':
         features_ig_movies.append('helpfulness')
         features_df_train = features_df_train[features_ig_movies]
@@ -127,7 +135,7 @@ test_normalized = Classification.normalize(df_test_under.iloc[:, 0:-1])
 # print(test_normalized[:5])
 
 classificador = Classification(
-    method, train_normalized, df_train_under['helpfulness'], test_normalized, df_test_under['helpfulness'])
+    method, train_normalized, df_train_under['helpfulness'], test_normalized, df_test_under['helpfulness'], columns)
 
 # pp = pprint.PrettyPrinter(indent=4)
 # print('filmes')

@@ -32,10 +32,10 @@ dominios = {'apps_dev': file_path_apps_dev, 'movies_dev': file_path_movies_dev, 
             'movies_test': file_path_movies_test, 'apps_train': file_path_apps_train, 'movies_train': file_path_movies_train}
 
 for desc, file_path in dominios.items():
-    resultado_correlacoes = []  # feature, pearson, spearman
+    # resultado_correlacoes = []  # feature, pearson, spearman
     df = load_corpus(file_path)
     df = df.astype({'stars': 'float64'})
-    df = df.head()
+    # df = df.head()
 
     domain = df['domain'][0]
     # print(domain)
@@ -44,7 +44,7 @@ for desc, file_path in dominios.items():
     p = Preprocessing()
     text_pre = df['text'].apply(p.preprocessing)
     text_pre = text_pre.to_frame(name='tokens')
-    text_pre.to_pickle('%s_tokens.pkl.gzip' % desc)
+    text_pre.to_pickle('preprocessed/%s_tokens.pkl.gzip' % desc)
 
     df_pre = pd.concat([df, text_pre], axis=1)
     df_pre = df_pre[df_pre.tokens.str.len() > 0]
