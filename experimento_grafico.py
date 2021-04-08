@@ -13,6 +13,7 @@ from gensim.test.utils import datapath, get_tmpfile
 from gensim.similarities import Similarity
 import concurrent.futures
 import sys
+import json
 
 
 def count_simi(parametros):
@@ -26,15 +27,16 @@ def count_simi(parametros):
     total_pares_simi = 0
     cont_iguais = 0
     candidates = np.where(simi >= T)[0]
-    maiores = np.where(candidates > i)[0]
+    maiores = candidates[np.where(candidates > i)[0]]
+    list_equals = []
     if len(maiores) > 0:
         slice_h = utilidade[maiores]
         total_pares_simi = len(slice_h)
-        iguais = np.where(slice_h == utilidade[i])
-        cont_iguais = len(iguais[0])
-        list_equals = iguais[0]
-        print(cont_iguais)
-    return (total_pares_simi, cont_iguais, list_equals)
+        iguais = maiores[np.where(slice_h == utilidade[i])[0]]
+        cont_iguais = len(iguais)
+        list_equals = iguais
+        # print(cont_iguais)
+    return (total_pares_simi, cont_iguais, list_equals, T)
 
 # 83 sec - 10k
 # Quantidade de pares em que houve similaridade acima de um threshold e tinham a mesma utilidade
@@ -52,15 +54,15 @@ base = sys.argv[1]
 # base = '/home/rogerio/workspace/Corpus Gigante/corpus_csvs_pickles/corpus_splited/'
 
 # Pickles
-file_path_apps_train = base+'train_apps.pkl'
-file_path_movies_train = base+'train_filmes.pkl'
+file_path_apps_train = base+'dev_apps.pkl'
+file_path_movies_train = base+'dev_filmes.pkl'
 
 # Tokens
-pre_apps_dev = 'preprocessed/apps_train_tokens.pkl.gzip'
-pre_filmes_dev = 'preprocessed/movies_train_tokens.pkl.gzip'
+pre_apps_dev = 'preprocessed/apps_dev_tokens.pkl.gzip'
+pre_filmes_dev = 'preprocessed/movies_dev_tokens.pkl.gzip'
 
-dominios = {'train_filmes': [
-    file_path_movies_train, pre_filmes_dev], 'train_apps': [file_path_apps_train, pre_apps_dev]}
+dominios = {'dev_filmes': [
+    file_path_movies_train, pre_filmes_dev], 'dev_apps': [file_path_apps_train, pre_apps_dev]}
 
 for dominio, files in dominios.items():
     corpus = files[0]
@@ -102,7 +104,7 @@ for dominio, files in dominios.items():
         total_pares_simi = [0 for i in range(0, 9)]
         T = [k/10 for k in range(1, 10)]
 
-        dict_equals = {}
+        dict_equals = {k/10: {} for k in range(1, 10)}
 
         futures = []
         for i, simi in enumerate(index):
@@ -123,7 +125,8 @@ for dominio, files in dominios.items():
                 resultado = f.result()
                 total_pares_simi[ind] += resultado[0]
                 cont_iguais[ind] += resultado[1]
-                dict_equals[i] = resultado[2]
+                threshold = resultado[3]
+                dict_equals[threshold][i] = resultado[2]
 
         for i in range(9):
             if total_pares_simi[i] != 0:
@@ -135,6 +138,8 @@ for dominio, files in dominios.items():
             [totais], columns=[10, 20, 30, 40, 50, 60, 70, 80, 90])
         result.to_csv('exp_similaridades/%s_%s_ttgrafico.csv' %
                       (dominio, title_set))
+        json.dump(dict_equals, open('exp_similaridades/%s_%s_ids_reviews_simi.json' %
+                                    (dominio, title_set), 'w'))
 
 # fim = time.time()
 # print("Tempo: %s" % (fim-inicio))
