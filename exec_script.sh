@@ -4,11 +4,11 @@ python tfidf_classifier.py apps randfor exps_features/model/ exps_features/resul
 python tfidf_classifier.py apps svm exps_features/model/ exps_features/result/ tf
 python tfidf_classifier.py apps nn exps_features/model/ exps_features/result/ tf
 
-python tfidf_classifier.py movies exps_features/model/ naive_bayes exps_features/result/ tfidf
-python tfidf_classifier.py movies exps_features/model/ tree exps_features/result/ tfidf
-python tfidf_classifier.py movies exps_features/model/ randfor exps_features/result/ tfidf
-python tfidf_classifier.py movies exps_features/model/ svm exps_features/result/ tfidf
-python tfidf_classifier.py movies exps_features/model/ nn exps_features/result/ tfidf
+python tfidf_classifier.py movies naive_bayes exps_features/model/ exps_features/result/ tfidf
+python tfidf_classifier.py movies tree exps_features/model/ exps_features/result/ tfidf
+python tfidf_classifier.py movies randfor exps_features/model/ exps_features/result/ tfidf
+python tfidf_classifier.py movies svm exps_features/model/ exps_features/result/ tfidf
+python tfidf_classifier.py movies nn exps_features/model/ exps_features/result/ tfidf
 
 
 
