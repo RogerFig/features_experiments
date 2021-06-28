@@ -11,9 +11,9 @@ import pickle5 as pickle
 
 domain = sys.argv[1]
 method = sys.argv[2]
-# model_folder = sys.argv[3]
-result_folder = sys.argv[3]
-sel_features = sys.argv[4]
+model_folder = sys.argv[3]
+result_folder = sys.argv[4]
+sel_features = sys.argv[5]
 
 
 def load_dataset_local(df_tk_path, df_help_path):
@@ -108,7 +108,7 @@ else:
     sel_features = 'tf'
     X, features_names = tf_feat.get_bow(df['text'], 1000)
 
-# name_model = "%s_%s_%s.model" % (domain, method, sel_features)
+name_model = "%s_%s_%s.model" % (domain, method, sel_features)
 name_result = "%s_%s_%s.json" % (domain, method, sel_features)
 
 # X_train, X_test, y_train, y_test = train_test_split(
@@ -117,6 +117,6 @@ name_result = "%s_%s_%s.json" % (domain, method, sel_features)
 classificador = Classification(
     method, X.todense()[:len_train], df_train_under['helpfulness'], X.todense()[len_train:], df_test_under['helpfulness'], features_names)
 
-resultado = classificador.classifier()
+resultado = classificador.classifier(model_folder+name_model)
 with open(result_folder+name_result, 'w') as f:
     json.dump(resultado, f)
