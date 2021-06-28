@@ -1,6 +1,6 @@
 import codecs
 
-from sklearn import svm
+from sklearn.svm import LinearSVC
 from sklearn.metrics import classification_report, confusion_matrix
 from sklearn.model_selection import train_test_split, cross_val_score
 from sklearn.naive_bayes import GaussianNB
@@ -75,9 +75,9 @@ class Classification:
         # x_train, x_test, y_train, y_test = train_test_split(
         # self.x, self.y, test_size=test_percentage)
         print(len(self.x_train), len(self.x_test),
-            len(self.y_train), len(self.y_test))
+              len(self.y_train), len(self.y_test))
         if self.algorithm == 'svm':
-            clf = svm.SVC(kernel='linear', gamma='auto')
+            clf = LinearSVC(random_state=0, tol=1e-05)
             clf.fit(self.x_train, self.y_train)
             if save_folder_model != '':
                 joblib.dump(clf, save_folder_model+'.model')
