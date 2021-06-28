@@ -7,6 +7,7 @@ from sklearn.model_selection import train_test_split
 import pprint
 import sys
 import json
+import pickle5 as pickle
 
 domain = sys.argv[1]
 method = sys.argv[2]
@@ -16,16 +17,18 @@ sel_features = sys.argv[4]
 
 
 def load_dataset_local(df_tk_path, df_help_path):
-    feat_apps_dev = pd.read_csv(df_help_path, index_col=0)
-    tk_apps_dev = pd.read_pickle(df_tk_path)
+    feat_apps = pd.read_csv(df_help_path, index_col=0)
+    #tk_apps = pd.read_pickle(df_tk_path)
+    with open(df_tk_path, "rb") as fh:
+        tk_apps = pickle.load(fh)
 
-    tk_apps_dev = tk_apps_dev[tk_apps_dev.tokens.str.len() > 0]
+    tk_apps = tk_apps[tk_apps.tokens.str.len() > 0]
 
-    tk_apps_dev = tk_apps_dev['tokens'].apply(
+    tk_apps = tk_apps['tokens'].apply(
         lambda x: ' '.join([a.lower() for a, _, _ in x]))
-    tk_apps_dev = tk_apps_dev.to_frame(name='text')
+    tk_apps = tk_apps.to_frame(name='text')
 
-    df = pd.concat([tk_apps_dev, feat_apps_dev['helpfulness']], axis=1)
+    df = pd.concat([tk_apps, feat_apps['helpfulness']], axis=1)
 
     return df
 

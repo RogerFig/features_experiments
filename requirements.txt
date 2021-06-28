@@ -21,3 +21,4 @@ nlpnet
 smart-open
 liwc
 mlxtend
+pickle5
