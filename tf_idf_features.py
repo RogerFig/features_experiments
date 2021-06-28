@@ -1,7 +1,7 @@
 from read_corpus import load_corpus
 from nltk.tokenize import word_tokenize
 import pandas as pd
-from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 from utils import Preprocessing
 from gensim import corpora
 from gensim import models
@@ -10,14 +10,21 @@ import numpy as np
 import gzip
 
 
-def get_tfidf_old(documents):
-    vectorizer = TfidfVectorizer(max_features=1000)
+def get_tfidf_sklearn(documents, max_features=10000):
+    vectorizer = TfidfVectorizer(max_features=max_features)
     vectors = vectorizer.fit_transform(documents)
     features_names = vectorizer.get_feature_names()
-    dense = vectors.todense()
-    denselist = dense.tolist()
-    df = pd.DataFrame(denselist, columns=features_names)
-    return df
+    # dense = vectors.todense()
+    # denselist = dense.tolist()
+    # df = pd.DataFrame(denselist, columns=features_names)
+    return vectors, features_names
+
+
+def get_bow(documents, max_features=10000):
+    vectorizer = CountVectorizer(max_features=max_features)
+    vectors = vectorizer.fit_transform(documents)
+    features_names = vectorizer.get_feature_names()
+    return vectors, features_names
 
 
 def get_tfidf(documents):

@@ -75,7 +75,7 @@ class Classification:
         # x_train, x_test, y_train, y_test = train_test_split(
         # self.x, self.y, test_size=test_percentage)
         print(len(self.x_train), len(self.x_test),
-              len(self.y_train), len(self.y_test))
+            len(self.y_train), len(self.y_test))
         if self.algorithm == 'svm':
             clf = svm.SVC(kernel='linear', gamma='auto')
             clf.fit(self.x_train, self.y_train)
