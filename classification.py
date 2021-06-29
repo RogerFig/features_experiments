@@ -110,7 +110,7 @@ class Classification:
             estimators = 200  # best fit
             max_depth = None  # best fit
             clf = RandomForestClassifier(
-                criterion=criterion, n_estimators=estimators, max_depth=max_depth)
+                criterion=criterion, n_estimators=estimators, max_depth=max_depth, n_jobs=-1)
             clf.fit(self.x_train, self.y_train)
             if save_folder_model != '':
                 joblib.dump(clf, save_folder_model+'.model')
