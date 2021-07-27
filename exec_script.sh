@@ -1,13 +1,18 @@
+python tfidf_classifier.py apps oner exps_features/model/ exps_features/result/ tf
+python tfidf_classifier.py movies oner exps_features/model/ exps_features/result/ tf
+python tfidf_classifier.py apps oner exps_features/model/ exps_features/result/ tfidf
+python tfidf_classifier.py movies oner exps_features/model/ exps_features/result/ tfidf
+
 # python tfidf_classifier.py apps naive_bayes exps_features/model/ exps_features/result/ tf
 # python tfidf_classifier.py apps tree exps_features/model/ exps_features/result/ tf
 # python tfidf_classifier.py apps randfor exps_features/model/ exps_features/result/ tf
 # python tfidf_classifier.py apps svm exps_features/model/ exps_features/result/ tf
 # python tfidf_classifier.py apps nn exps_features/model/ exps_features/result/ tf
 
-python tfidf_classifier.py movies naive_bayes exps_features/model/ exps_features/result/ tf
-python tfidf_classifier.py movies tree exps_features/model/ exps_features/result/ tf
-python tfidf_classifier.py movies randfor exps_features/model/ exps_features/result/ tf
-python tfidf_classifier.py movies svm exps_features/model/ exps_features/result/ tf
+# python tfidf_classifier.py movies naive_bayes exps_features/model/ exps_features/result/ tf
+# python tfidf_classifier.py movies tree exps_features/model/ exps_features/result/ tf
+# python tfidf_classifier.py movies randfor exps_features/model/ exps_features/result/ tf
+# python tfidf_classifier.py movies svm exps_features/model/ exps_features/result/ tf
 # python tfidf_classifier.py movies nn exps_features/model/ exps_features/result/ tf
 
 # python tfidf_classifier.py apps naive_bayes exps_features/model/ exps_features/result/ tfidf
