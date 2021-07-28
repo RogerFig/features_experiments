@@ -1,7 +1,7 @@
-python tfidf_classifier.py apps oner exps_features/model/ exps_features/result/ tf
-python tfidf_classifier.py movies oner exps_features/model/ exps_features/result/ tf
-python tfidf_classifier.py apps oner exps_features/model/ exps_features/result/ tfidf
-python tfidf_classifier.py movies oner exps_features/model/ exps_features/result/ tfidf
+python tfidf_classifier.py apps dummy exps_features/model/ exps_features/result/ tf
+python tfidf_classifier.py movies dummy exps_features/model/ exps_features/result/ tf
+python tfidf_classifier.py apps dummy exps_features/model/ exps_features/result/ tfidf
+python tfidf_classifier.py movies dummy exps_features/model/ exps_features/result/ tfidf
 
 # python tfidf_classifier.py apps naive_bayes exps_features/model/ exps_features/result/ tf
 # python tfidf_classifier.py apps tree exps_features/model/ exps_features/result/ tf
