@@ -101,12 +101,12 @@ len_test = df_test_under.shape[0]
 df = pd.concat([df_train_under, df_test_under])
 
 if sel_features == 'tf':
-    X, features_names = tf_feat.get_bow(df['text'], 1000)
+    X, features_names = tf_feat.get_bow(df['text'], 500)
 elif sel_features == 'tfidf':
-    X, features_names = tf_feat.get_tfidf_sklearn(df['text'], 1000)
+    X, features_names = tf_feat.get_tfidf_sklearn(df['text'], 500)
 else:
     sel_features = 'tf'
-    X, features_names = tf_feat.get_bow(df['text'], 1000)
+    X, features_names = tf_feat.get_bow(df['text'], 500)
 
 name_model = "%s_%s_%s.model" % (domain, method, sel_features)
 name_result = "%s_%s_%s.json" % (domain, method, sel_features)
