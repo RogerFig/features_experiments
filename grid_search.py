@@ -153,7 +153,7 @@ else:
     print("Método inválido")
     exit()
 
-y_pred = clf.predict(Y_test)
+y_pred = clf.predict(X_test)
 
 
 resultado = classification_report(
