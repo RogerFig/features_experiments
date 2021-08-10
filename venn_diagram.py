@@ -146,44 +146,44 @@ def get_features(domain, tf=False, tfidf=True, sel_features='all', normalize=Tru
     return df_val.fillna(0)
 
 
-results_folder = "/media/rogerio/Novo volume/MODELS_ALL_TFIDF/"
+# results_folder = "/media/rogerio/Novo volume/MODELS_ALL_TFIDF/"
 
-nb_apps = joblib.load(os.sep.join(
-    [results_folder, 'apps_naive_bayes_all_tfidf.model.model']))
+# nb_apps = joblib.load(os.sep.join(
+#     [results_folder, 'apps_naive_bayes_all_tfidf.model.model']))
 
-svm_apps = joblib.load(os.sep.join(
-    [results_folder, 'apps_svm_all_tfidf.model.model']))
+# svm_apps = joblib.load(os.sep.join(
+#     [results_folder, 'apps_svm_all_tfidf.model.model']))
 
-dt_apps = joblib.load(os.sep.join(
-    [results_folder, 'apps_tree_all_tfidf.model.model']))
+# dt_apps = joblib.load(os.sep.join(
+#     [results_folder, 'apps_tree_all_tfidf.model.model']))
 
-nn_apps = joblib.load(os.sep.join(
-    [results_folder, 'apps_nn_all_tfidf.model.model']))
+# nn_apps = joblib.load(os.sep.join(
+#     [results_folder, 'apps_nn_all_tfidf.model.model']))
 
-rf_apps = joblib.load(os.sep.join(
-    [results_folder, 'apps_randfor_all_tfidf.model.model']))
+# rf_apps = joblib.load(os.sep.join(
+#     [results_folder, 'apps_randfor_all_tfidf.model.model']))
 
-apps_models = {'NB': nb_apps, 'SVM': svm_apps,
-               'DT': dt_apps, 'nn': nn_apps, 'rf': rf_apps}
+# apps_models = {'NB': nb_apps, 'SVM': svm_apps,
+#                'DT': dt_apps, 'nn': nn_apps, 'rf': rf_apps}
 
 
-nb_movies = joblib.load(os.sep.join(
-    [results_folder, 'movies_naive_bayes_all_tfidf.model.model']))
+# nb_movies = joblib.load(os.sep.join(
+#     [results_folder, 'movies_naive_bayes_all_tfidf.model.model']))
 
-svm_movies = joblib.load(os.sep.join(
-    [results_folder, 'movies_svm_all_tfidf.model.model']))
+# svm_movies = joblib.load(os.sep.join(
+#     [results_folder, 'movies_svm_all_tfidf.model.model']))
 
-dt_movies = joblib.load(os.sep.join(
-    [results_folder, 'movies_tree_all_tfidf.model.model']))
+# dt_movies = joblib.load(os.sep.join(
+#     [results_folder, 'movies_tree_all_tfidf.model.model']))
 
-nn_movies = joblib.load(os.sep.join(
-    [results_folder, 'movies_nn_all_tfidf.model.model']))
+# nn_movies = joblib.load(os.sep.join(
+#     [results_folder, 'movies_nn_all_tfidf.model.model']))
 
-rf_movies = joblib.load(os.sep.join(
-    [results_folder, 'movies_randfor_all_tfidf.model.model']))
+# rf_movies = joblib.load(os.sep.join(
+#     [results_folder, 'movies_randfor_all_tfidf.model.model']))
 
-movies_models = {'NB': nb_movies, 'SVM': svm_movies,
-                 'DT': dt_movies, 'nn': nn_movies, 'rf': rf_movies}
+# movies_models = {'NB': nb_movies, 'SVM': svm_movies,
+#                  'DT': dt_movies, 'nn': nn_movies, 'rf': rf_movies}
 
 #ds_apps_train, ds_apps_test = gf('apps')
 ds_movies_train, ds_movies_test = gf('movies')
